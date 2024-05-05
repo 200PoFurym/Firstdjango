@@ -8,6 +8,58 @@
     <title>Document</title>
 </head>
 <body>
+<div class="bar">
+    <ul class="nav">
+        <li>
+            {% if user.is_authenticated %}
+                <a href="/logout">{{user.username}}</a>
+            {%else%}
+                <a href="/register">Sing in</a>
+            {%endif%}
+        </li>
+    </ul>>
+</div>
+<form action="" method="post">
+    {% csrf_token %}
+        <input type="text" placeholder="Search" name="search_news">
+    <button>Search</button>
+</form>
+    {% if search_news %}
+        <div class="row">
+                {% for news in search_news %}
+                    <div class="col-md-4">
+                        <div class="card" style="width: 18rem;">
+                            <img src="{{ news.image.url }}" width="200px" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ news.news_name }}</h5>
+                                    <p class="card-text">{{ news.created_at }}</p>
+                                    <a href="/news/{{ news.id }}">See more</a>
+                                </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                </div>
+    {% else %}
+        <div class="row">
+            {% for news in news %}
+                <div class="col-md-4">
+                    <div class="card" style="width: 18rem;">
+                        <img src="{{ news.image.url }}" width="200px" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ news.news_name }}</h5>
+                                <p class="card-text">{{ news.created_at }}</p>
+                                <a href="/news/{{ news.id}}">See more</a>
+                            </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+<div class="list-group">
+    {% for i in categories %}
+        <a href="#" style="font-family:" class="list-group-item">{{i.category_name}}</a>
+    {% endfor %}
+</div>
 
 <h1>МИРОВЫЕ НОВОСТИ</h1>
 {% for i in news %}

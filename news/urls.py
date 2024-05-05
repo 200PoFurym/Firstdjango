@@ -19,12 +19,15 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
 
-from newsworld.views import home_page, MyFormView
+from newsworld.views import home_page, MyFormView, single_news, MyLoginFormView, logout_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home_page),
     path('register', MyFormView.as_view()),
+    path('news/<int:id>', single_news),
+    path('login', MyLoginFormView.as_view()),
+    path('logout', logout_view)
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
