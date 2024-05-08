@@ -38,3 +38,23 @@ class MyUserModel(models.Model):
     class Meta:
         verbose_name = 'MyUser'
         verbose_name_plural = 'MyUsers'
+
+class CartModel(models.Model):
+    user_id = models.IntegerField()
+    user_news = models.ForeignKey(News, on_delete=models.CASCADE)
+    user_add_date = models.DateTimeField(auto_now_add=True)
+    def __str__(self):
+        return str(self.user_id)
+    class Meta:
+        verbose_name = 'Cart'
+        verbose_name_plural = 'Carts'
+class LikeModel(models.Model):
+    user_id = models.IntegerField()
+    user_news = models.ForeignKey(News, on_delete=models.CASCADE)
+    user_add_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return str(self.user_id)
+    class Meta:
+        verbose_name = 'Like'
+        verbose_name_plural = 'Likes'

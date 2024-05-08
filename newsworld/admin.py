@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from newsworld.models import NewsCategory, News, MyUserModel
+from newsworld.models import NewsCategory, News, MyUserModel, CartModel
 
 
 # Register your models here.
@@ -18,3 +18,5 @@ class MyUserModelAdmin(admin.ModelAdmin):
     search_fields = ['username', 'id']
     list_display = ['username', 'id', 'phone_number', 'email']
     ordering = ['-id']
+
+admin.site.register(CartModel)

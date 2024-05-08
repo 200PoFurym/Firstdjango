@@ -19,7 +19,8 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
 
-from newsworld.views import home_page, MyFormView, single_news, MyLoginFormView, logout_view
+from newsworld.views import home_page, MyFormView, single_news, MyLoginFormView, logout_view, category_page, \
+    add_product_to_cart, user_cart, add_like, user_likes
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,7 +28,12 @@ urlpatterns = [
     path('register', MyFormView.as_view()),
     path('news/<int:id>', single_news),
     path('login', MyLoginFormView.as_view()),
-    path('logout', logout_view)
+    path('logout', logout_view),
+    path('category/<int:id>', category_page),
+    path('add_to_cart/<int:id>', add_product_to_cart),
+    path('user_cart', user_cart),
+    path('add_like/<int:id>', add_like),
+    path('user_likes', user_likes, name='user_likes')
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

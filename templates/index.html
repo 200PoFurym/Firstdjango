@@ -6,67 +6,79 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 </head>
 <body>
 <div class="bar">
     <ul class="nav">
         <li>
             {% if user.is_authenticated %}
-                <a href="/logout">{{user.username}}</a>
+            <a href="/logout">{{user.username}}</a>
             {%else%}
-                <a href="/register">Sing in</a>
+            <a href="/register">Sing in</a>
             {%endif%}
         </li>
-    </ul>>
+    </ul>
+    >
 </div>
 <form action="" method="post">
     {% csrf_token %}
-        <input type="text" placeholder="Search" name="search_news">
+    <input type="text" placeholder="Search" name="search_news">
     <button>Search</button>
 </form>
-    {% if search_news %}
-        <div class="row">
-                {% for news in search_news %}
-                    <div class="col-md-4">
-                        <div class="card" style="width: 18rem;">
-                            <img src="{{ news.image.url }}" width="200px" alt="...">
-                                <div class="card-body">
-                                    <h5 class="card-title">{{ news.news_name }}</h5>
-                                    <p class="card-text">{{ news.created_at }}</p>
-                                    <a href="/news/{{ news.id }}">See more</a>
-                                </div>
-                        </div>
-                    </div>
-                {% endfor %}
-                </div>
-    {% else %}
-        <div class="row">
-            {% for news in news %}
-                <div class="col-md-4">
-                    <div class="card" style="width: 18rem;">
-                        <img src="{{ news.image.url }}" width="200px" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ news.news_name }}</h5>
-                                <p class="card-text">{{ news.created_at }}</p>
-                                <a href="/news/{{ news.id}}">See more</a>
-                            </div>
-                    </div>
-                </div>
-            {% endfor %}
+{% if search_news %}
+<div class="row">
+    {% for news in search_news %}
+    <div class="col-md-4">
+        <div class="card" style="width: 18rem;">
+            <img src="{{ news.image.url }}" width="200px" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">{{ news.news_name }}</h5>
+                <p class="card-text">{{ news.created_at }}</p>
+                <a href="/news/{{ news.id }}">See more</a>
+            </div>
         </div>
-    {% endif %}
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="row">
+    {% for news in news %}
+    <div class="col-md-4">
+        <div class="card" style="width: 18rem;">
+            <img src="{{ news.image.url }}" width="200px" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">{{ news.news_name }}</h5>
+                <p class="card-text">{{ news.created_at }}</p>
+                <a href="/news/{{ news.id}}" class="btn btn-primary">See more</a>
+
+                <form action="/add_like/{{news.id}}" method="POST">
+                    {% csrf_token %}
+                    <button class="btn btn-warning">Like</button>
+                </form>
+                <form action="/add_to_cart/{{news.id}}" method="POST">
+                    {%csrf_token%}
+                    <input type="number" min="1" value="1" name="count">
+                    <button class="btn btn-success"><i class="fa fa-shopping-basket"></i></button>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
 <div class="list-group">
     {% for i in categories %}
-        <a href="#" style="font-family:" class="list-group-item">{{i.category_name}}</a>
+    <a href="category/{{i.id}}" style="font-family:" class="list-group-item">{{i.category_name}}</a>
     {% endfor %}
 </div>
 
 <h1>МИРОВЫЕ НОВОСТИ</h1>
 {% for i in news %}
-    <h3>{{i.news_name}}</h3>
-    <h6>{{i.created_at}}</h6>
-    <p>{{i.description}}</p>
-    <img src="{{ i.image.url }}" width="400px" alt="">
+<h3>{{i.news_name}}</h3>
+<h6>{{i.created_at}}</h6>
+<p>{{i.description}}</p>
+<img src="{{ i.image.url }}" width="400px" alt="">
 {% endfor %}
 </body>
 </html>
